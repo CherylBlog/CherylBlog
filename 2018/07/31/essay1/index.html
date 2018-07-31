@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Cont">
+<meta name="description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用 UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Con">
 <meta property="og:type" content="article">
 <meta property="og:title" content="UITableViewCell 中 CollectionView 的 ContentOffset 复用问题">
 <meta property="og:url" content="http://yoursite.com/2018/07/31/essay1/index.html">
 <meta property="og:site_name" content="小程故事">
-<meta property="og:description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Cont">
+<meta property="og:description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用 UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Con">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/07/31/essay1/image1.png">
-<meta property="og:updated_time" content="2018-07-31T12:04:13.000Z">
+<meta property="og:updated_time" content="2018-07-31T12:08:31.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="UITableViewCell 中 CollectionView 的 ContentOffset 复用问题">
-<meta name="twitter:description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Cont">
+<meta name="twitter:description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用 UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Con">
 <meta name="twitter:image" content="http://yoursite.com/2018/07/31/essay1/image1.png">
 
 
@@ -301,7 +301,7 @@
       
 
       
-        <p>在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用UICollectionView 的时候，例如：</p>
+        <p>在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用 UICollectionView 的时候，例如：</p>
 <img src="/2018/07/31/essay1/image1.png">
 <p>这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 ContentOffset 也被复用了。这样就会出现错位现象。<br>解决这个问题的方法就是将每个 UICollectionView 的 ContentOffset 值进行存储。<br>采用如下的方法：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong) NSMutableDictionary * contentOffsetDic;</span><br></pre></td></tr></table></figure>
