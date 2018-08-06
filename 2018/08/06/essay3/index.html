@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="小程故事">
 <meta property="og:description" content="在 iOS 开发过程中，UITableview 是一个经常被用到的组件之一。小白我原来自以为对他老人家已经是非常熟悉了。但是种种打脸情况的出现告诉我，还是太年轻。 使用 UITableView 的 reloadSections，很容易引起 NSInternalInconsistencyException 这样的崩溃，每次都快把我整奔溃了。为什么呢？ 当 UITableView 的数据源发生变化的时">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-06T07:02:23.000Z">
+<meta property="og:updated_time" content="2018-08-06T07:06:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于 UITableView reloadSections 引起的崩溃问题">
 <meta name="twitter:description" content="在 iOS 开发过程中，UITableview 是一个经常被用到的组件之一。小白我原来自以为对他老人家已经是非常熟悉了。但是种种打脸情况的出现告诉我，还是太年轻。 使用 UITableView 的 reloadSections，很容易引起 NSInternalInconsistencyException 这样的崩溃，每次都快把我整奔溃了。为什么呢？ 当 UITableView 的数据源发生变化的时">
@@ -301,8 +301,8 @@
       
         <p>在 iOS 开发过程中，UITableview 是一个经常被用到的组件之一。小白我原来自以为对他老人家已经是非常熟悉了。但是种种打脸情况的出现告诉我，还是太年轻。</p>
 <p>使用 UITableView 的 reloadSections，很容易引起 NSInternalInconsistencyException 这样的崩溃，每次都快把我整奔溃了。为什么呢？</p>
-<p>当 UITableView 的数据源发生变化的时候，一般会调用 reloadData 方法或者 reloadSections:withRowAnimation: 来进行 UITableview 的 UI 刷新。然而在有些时候并不需要刷新整个 UITableView，这个时候我们往往采用后者进行局部的刷新。但此时确实有这样的一个隐患：</p>
-<p>在调用 reloadSections:withRowAnimation: 方法的时候，UITableView 还会对其他 section 进行校验，此时如果发现 UITableView 记录的某个 section 的 ro w的数量和 [dataSource tableView:numberOfRowsInSection] 方法返回的有差异的时候，就会抛出一个 NSInternalInconsistencyException 异常。</p>
+<p>当 UITableView 的数据源发生变化的时候，一般会调用 reloadData 方法或者 reloadSections:withRowAnimation: 来进行 UITableview 的 UI 刷新。然而在有些时候并不需要刷新整个 UITableView，这个时候我们往往采用后者进行局部的刷新。但此时却有这样的一个隐患：</p>
+<p>在调用 reloadSections:withRowAnimation: 方法的时候，UITableView 还会对其他 section 进行校验，此时如果发现 UITableView 记录的某个 section 的 row 的数量和 [dataSource tableView:numberOfRowsInSection] 方法返回的有差异的时候，就会抛出一个 NSInternalInconsistencyException 异常。</p>
 <p>我的理解就是:当某个 section 所对应的数据源促使该 section 的 row 发生变化的时候，确没有对该 section 进行刷新的话，就会抛出异常。</p>
 
       
