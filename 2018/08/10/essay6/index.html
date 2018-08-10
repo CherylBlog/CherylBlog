@@ -79,19 +79,17 @@
 
 
 
-<meta name="description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用 UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Con">
+<meta name="description" content="block 的使用，为程序的开发带来了很大的方便，但是与此同时，block 带来的循环引用问题也是要注意的： 123456789101112131415@interface MyBlockClass : NSObject@property (nonatomic, copy) void (^block)();@end@implementation MyBlockClass-(void)methodB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="UITableViewCell 中 CollectionView 的 ContentOffset 复用问题">
-<meta property="og:url" content="http://yoursite.com/2018/07/31/essay1/index.html">
+<meta property="og:title" content="block 中的循环引用问题">
+<meta property="og:url" content="http://yoursite.com/2018/08/10/essay6/index.html">
 <meta property="og:site_name" content="小程故事">
-<meta property="og:description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用 UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Con">
+<meta property="og:description" content="block 的使用，为程序的开发带来了很大的方便，但是与此同时，block 带来的循环引用问题也是要注意的： 123456789101112131415@interface MyBlockClass : NSObject@property (nonatomic, copy) void (^block)();@end@implementation MyBlockClass-(void)methodB">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/07/31/essay1/image1.png">
-<meta property="og:updated_time" content="2018-07-31T12:08:31.000Z">
+<meta property="og:updated_time" content="2018-08-10T08:28:11.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="UITableViewCell 中 CollectionView 的 ContentOffset 复用问题">
-<meta name="twitter:description" content="在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用 UICollectionView 的时候，例如：  这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 Con">
-<meta name="twitter:image" content="http://yoursite.com/2018/07/31/essay1/image1.png">
+<meta name="twitter:title" content="block 中的循环引用问题">
+<meta name="twitter:description" content="block 的使用，为程序的开发带来了很大的方便，但是与此同时，block 带来的循环引用问题也是要注意的： 123456789101112131415@interface MyBlockClass : NSObject@property (nonatomic, copy) void (^block)();@end@implementation MyBlockClass-(void)methodB">
 
 
 
@@ -121,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/07/31/essay1/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/10/essay6/"/>
 
 
 
 
 
-  <title>UITableViewCell 中 CollectionView 的 ContentOffset 复用问题 | 小程故事</title>
+  <title>block 中的循环引用问题 | 小程故事</title>
   
 
 
@@ -234,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/07/31/essay1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/10/essay6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="汤圆红豆酥">
@@ -251,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">UITableViewCell 中 CollectionView 的 ContentOffset 复用问题</h1>
+          <h1 class="post-title" itemprop="name headline">block 中的循环引用问题</h1>
         
 
         <div class="post-meta">
@@ -263,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-31T17:44:57+08:00">
-                2018-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-10T15:42:43+08:00">
+                2018-08-10
               </time>
             
 
@@ -301,14 +299,16 @@
       
 
       
-        <p>在 iOS 应用开发时，常常会用到在 UITableViewCell 中嵌套使用 UICollectionView 的时候，例如：</p>
-<img src="/2018/07/31/essay1/image1.png">
-<p>这个时候如果左右滑动 UICollectionView 中的内容，会造成它的 ContentOffset 的只发生改变。当包含这个 UICollectionView 的 UITableViewCell 被复用的时候，导致 UICollectionView 的 ContentOffset 也被复用了。这样就会出现错位现象。<br>解决这个问题的方法就是将每个 UICollectionView 的 ContentOffset 值进行存储。<br>采用如下的方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong) NSMutableDictionary * contentOffsetDic;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (void)tableView:(UITableView *)tableView didEndDisplayingCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath*)indexPath &#123;</span><br><span class="line">    </span><br><span class="line">    MyCell * collectionCell = (MyCell *)cell;</span><br><span class="line">    NSInteger row = indexPath.row;</span><br><span class="line">    CGFloat horizontalOffset = collectionCell.collectionView.contentOffset.x;</span><br><span class="line">    self.contentOffsetDic[[@(row) stringValue]] = @(horizontalOffset);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath&#123;</span><br><span class="line">    MyCell * collectionCell = (MyCell *)cell;</span><br><span class="line">    NSInteger row = indexPath.row;</span><br><span class="line">    CGFloat horizontalOffset = [self.contentOffsetDic[[@(row) stringValue]] floatValue];</span><br><span class="line">    [collectionCell.collectionView setContentOffset:CGPointMake(horizontalOffset, collectionCell.collectionView.contentOffset.y)];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>其中 contentOffsetDic 用于对 UICollectionView 的 ContentOffset 进行存储，然后在 -(void)tableView:(UITableView <em>)tableView didEndDisplayingCell:(UITableViewCell </em>)cell forRowAtIndexPath:(NSIndexPath<em>)indexPath 和 -(void)tableView:(UITableView </em>)tableView willDisplayCell:(UITableViewCell <em>)cell forRowAtIndexPath:(NSIndexPath </em>)indexPath  这两个 UITableView 的代理方法中进行 contentOffset 的存储和恢复。</p>
-<p>但是值得注意的是，数据的加载往往分为更新和加载更多两种形式，在数据更新的时候最好要 contentOffsetDic 中的数据重置，因为更新数据可能导致原来对应的数据就不存在了。</p>
+        <p>block 的使用，为程序的开发带来了很大的方便，但是与此同时，block 带来的循环引用问题也是要注意的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">@interface MyBlockClass : NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy) void (^block)();</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MyBlockClass</span><br><span class="line"></span><br><span class="line">-(void)methodBlock&#123;</span><br><span class="line">    self.block = ^&#123;</span><br><span class="line">        [self methodOne];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>上面的代码生命了一个 block 属性，使得 self 对 block 有一个强引用。在 block 内又对 self 进行了强引用，形成一个闭环，即循环引用。这样内存不能被释放，就会造成内存泄漏。解决这样的循环引用通常是声明一个 weakSelf，更改后的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-(void)methodBlock&#123;</span><br><span class="line">    __weak typeof(self) weakSelf = self;</span><br><span class="line">    self.block = ^&#123;</span><br><span class="line">        [weakSelf methodOne];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样 block 对 self 的引用就是一个弱引用关系，这样就打破了循环引用的闭环。</p>
+<p>虽然解决了循环引用的问题，但是还有一个问题值得注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">-(void)methodBlock&#123;</span><br><span class="line">    __weak typeof(self) weakSelf = self;</span><br><span class="line">    self.block = ^&#123;</span><br><span class="line">        [weakSelf methodOne];</span><br><span class="line">        [weakSelf methodTwo];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在并发执行的时候 block 是可以被抢占的，对 weakSelf 指针的调用时序不同也会导致不同的结果，在特定的时序下 weakSelf 可能会变成 nil，在这个时候执行 [weakSelf methodTwo] 会造成程序的崩溃。为避免这个问题，采用 __strong 的方式进行避免，更改后的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-(void)methodBlock&#123;</span><br><span class="line">    __weak typeof(self) weakSelf = self;</span><br><span class="line">    self.block = ^&#123;</span><br><span class="line">        __strong typeof(weakSelf) strongSelf = weakSelf;</span><br><span class="line">        [weakSelf methodOne];</span><br><span class="line">        [weakSelf methodTwo];</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样就算是 block 被抢占，strongSelf 还是非 nil 的。<br>weakself 是为了 block 不持有 self，避免循环引用；strongSelf 是因为一旦进入 block 执行，就不允许 self 在这个执行过程中释放。block 执行完成，这个 strongSelf 会自动释放，没有循环引用问题。</p>
 
       
     </div>
@@ -333,15 +333,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/08/10/essay5/" rel="next" title="C 语言的内存模型">
+                <i class="fa fa-chevron-left"></i> C 语言的内存模型
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/01/essay2/" rel="prev" title="GitHub + Hexo 搭建博客">
-                GitHub + Hexo 搭建博客 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
