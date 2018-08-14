@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/13/essay8/" itemprop="url">essay8</a></h1>
+                <a class="post-title-link" href="/2018/08/13/essay8/" itemprop="url">iOS 内存管理方式</a></h1>
         
 
         <div class="post-meta">
@@ -300,7 +300,26 @@
       
         
           
-            
+            <p>对于iOS的内存管理方式，大家一般都是只知其然而不知其所以然。下面就对iOS的内存管理做一个简单的总结。</p>
+<h2 id="iOS-内存管理的基本原则"><a href="#iOS-内存管理的基本原则" class="headerlink" title="iOS 内存管理的基本原则"></a>iOS 内存管理的基本原则</h2><p>iOS的内存管理主要遵循以下的几个基本原则，这个原则无论在ARC时代还是在MRC时代都适用的:</p>
+<ol>
+<li>自己生成的对象，自己持有；</li>
+<li>不是自己生成的对象，自己也可以持有；</li>
+<li>自己不再需要持有对象时，进行释放；</li>
+<li>不能释放自己不持有的对象。</li>
+</ol>
+<h3 id="自己生成的对象，自己持有"><a href="#自己生成的对象，自己持有" class="headerlink" title="自己生成的对象，自己持有"></a>自己生成的对象，自己持有</h3><p>在iOS内存管理中有这样的四个关键字: alloc、new、copy、mutableCopy，如果自身通过这几个关键字产生了对象，那么自身就持有了这个对象:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id obj = [[NSObject alloc] init];</span><br><span class="line">id obj = [NSObject new];</span><br></pre></td></tr></table></figure>
+<p>使用了alloc 或者 new 分配了内存，obj指向了这个对象，这个对象本身的引用计数是1，不需要再进行retain操作。</p>
+<h3 id="不是自己生成的对象，自己也可以持有"><a href="#不是自己生成的对象，自己也可以持有" class="headerlink" title="不是自己生成的对象，自己也可以持有"></a>不是自己生成的对象，自己也可以持有</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id obj = [NSMutableArray array];</span><br><span class="line">[obj retain];</span><br></pre></td></tr></table></figure>
+<p>NSMutableArray 通过类方法array产生了对象，这个对象不属于obj自身产生的。所以，这个时候需要使用retain方法使对象的引用计数+1，此时尽管这个对象不是obj自身产生的，但是它也可以持有这个对象了。</p>
+<h3 id="自己不再需要持有对象时，进行释放"><a href="#自己不再需要持有对象时，进行释放" class="headerlink" title="自己不再需要持有对象时，进行释放"></a>自己不再需要持有对象时，进行释放</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id obj = [NSMutableArray array];</span><br><span class="line">[obj retain];</span><br><span class="line"></span><br><span class="line">[obj release];</span><br></pre></td></tr></table></figure>
+<p>当obj不需要再继续持有对象的时候，就可以发送release消息了。</p>
+<h3 id="不能释放自己不持有的对象"><a href="#不能释放自己不持有的对象" class="headerlink" title="不能释放自己不持有的对象"></a>不能释放自己不持有的对象</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">id obj = [[NSObject alloc] init];</span><br><span class="line"></span><br><span class="line">[obj release];</span><br><span class="line"></span><br><span class="line">[obj release];</span><br></pre></td></tr></table></figure>
+<p>释放一个已经被释放的对象是不允许的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id obj1 = [obj object];</span><br><span class="line">[obj1 release];</span><br></pre></td></tr></table></figure>
+<p>obj1在没有进行retain操作的情况下进行了release操作，使得obj持有的对象被释放了，这样会造成野指针，也是不允许的。</p>
+
           
         
       
