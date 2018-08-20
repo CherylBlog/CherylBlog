@@ -455,7 +455,7 @@
 <h4 id="异步执行-并发队列"><a href="#异步执行-并发队列" class="headerlink" title="异步执行 + 并发队列"></a>异步执行 + 并发队列</h4><p>有开启新的线程，并发执行任务。</p>
 <h4 id="异步执行-串行队列"><a href="#异步执行-串行队列" class="headerlink" title="异步执行 + 串行队列"></a>异步执行 + 串行队列</h4><p>有开启新的线程(1条)，串行执行任务</p>
 <h4 id="异步执行-主队列"><a href="#异步执行-主队列" class="headerlink" title="异步执行 + 主队列"></a>异步执行 + 主队列</h4><p>没有开启新的线程，串行执行任务</p>
-<h2 id="GCD-线程间的通信"><a href="#GCD-线程间的通信" class="headerlink" title="GCD 线程间的通信"></a>GCD 线程间的通信</h2><p>在iOS开发中，会将UI刷新(点击、滚动、拖拽等)放在主线程，其他比较耗时的操作(图片下载、文件上传等)放在其他线程。在其他线程中完成了耗时操作之后需要再次返回主线程，此时就需要线程见得通信了。</p>
+<h2 id="GCD-线程间的通信"><a href="#GCD-线程间的通信" class="headerlink" title="GCD 线程间的通信"></a>GCD 线程间的通信</h2><p>在 iOS 开发中，会将UI刷新(点击、滚动、拖拽等)放在主线程，其他比较耗时的操作(图片下载、文件上传等)放在其他线程。在其他线程中完成了耗时操作之后需要再次返回主线程，此时就需要线程见得通信了。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0) , ^&#123;</span><br><span class="line">     在这里完成一些耗时操作</span><br><span class="line">     </span><br><span class="line">     //回到主线程</span><br><span class="line">     dispatch_async(dispatch_get_main_queue() , ^&#123;</span><br><span class="line">          刷新UI的一些操作</span><br><span class="line">     &#125;);</span><br><span class="line">     </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
           
