@@ -311,7 +311,11 @@
 <h3 id="3-imageEdgeInsets"><a href="#3-imageEdgeInsets" class="headerlink" title="3. imageEdgeInsets"></a>3. imageEdgeInsets</h3><p>这个代表的是image的UIEdgeInsets，其中的top、bottom、left是相对于外层的contentView的，而right是相对于title 来说的。</p>
 <p>造成imageEdgeInsets和titleEdgeInsets出现这种情况的原因是，UIButton默认的图文按钮是左图右文的形式。</p>
 <img src="/2018/09/26/essay14/image1.png">
-
+<p>在上图中top、left、bottom、right在沿着箭头方向上的位移为正值，逆着箭头方向的值为负值。</p>
+<h2 id="UIEdgeInsets的简单应用"><a href="#UIEdgeInsets的简单应用" class="headerlink" title="UIEdgeInsets的简单应用"></a>UIEdgeInsets的简单应用</h2><h3 id="实现左文右图"><a href="#实现左文右图" class="headerlink" title="实现左文右图"></a>实现左文右图</h3><p>调整imageEdgeInsets向右偏移title的宽度，titleEdgeInsets向左偏移image的宽度，形成如下的按钮：</p>
+<img src="/2018/09/26/essay14/image2.png">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CGRect rectTitle = button.titleLabel.frame;</span><br><span class="line">CGRect rectImage = button.imageView.frame;</span><br><span class="line">button.titleEdgeInsets = UIEdgeInsetsMake(0, - rectImage.size.width, 0, rectImage.size.width);</span><br><span class="line">button.imageEdgeInsets = UIEdgeInsetsMake(0, rectTitle.size.width, 0, - rectTitle.size.width);</span><br></pre></td></tr></table></figure>
+<h3 id="实现上图下文"><a href="#实现上图下文" class="headerlink" title="实现上图下文"></a>实现上图下文</h3>
           
         
       
