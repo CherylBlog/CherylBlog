@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/09/26/essay14/" itemprop="url">了解UIButton的UIEdgeInsets属性</a></h1>
+                <a class="post-title-link" href="/2018/09/26/essay14/" itemprop="url">了解 UIButton 的 UIEdgeInsets 属性</a></h1>
         
 
         <div class="post-meta">
@@ -300,22 +300,25 @@
       
         
           
-            <p>在应用开发时，经常会用到UIButton这个控件。在UI的样式上，它支持仅图片、仅文字、图片+文字（默认的左图右文形式）。但是在一些场景下常常需要对原生的UIButton进行一些调整。例如：调整图片和文字的距离、上图下文等形式。这个时候就要借助于UIButton的UIEdgeInsets属性了。然而，这个属性的过程中，常常会遇到设置不生效的情况。这是因为对这个属性了解的还不够，本文就是针对UIEdgeInsets的一些基本的使用说明。</p>
-<h2 id="UIEdgeInsets的种类"><a href="#UIEdgeInsets的种类" class="headerlink" title="UIEdgeInsets的种类"></a>UIEdgeInsets的种类</h2><p>这里所说的UIEdgeInsets仅仅是针对UIButton的。</p>
+            <p>在应用开发时，经常会用到 UIButton 这个控件。在UI的样式上，它支持仅图片、仅文字、图片+文字（默认的左图右文形式）。但是在一些场景下常常需要对原生的 UIButton 进行一些调整。例如：调整图片和文字的距离、上图下文等形式。这个时候就要借助于 UIButton 的 UIEdgeInsets 属性了。然而，这个属性的过程中，常常会遇到设置不生效的情况。这是因为对这个属性了解的还不够，本文就是针对 UIEdgeInsets 的一些基本的使用说明。</p>
+<h2 id="UIEdgeInsets-的种类"><a href="#UIEdgeInsets-的种类" class="headerlink" title="UIEdgeInsets 的种类"></a>UIEdgeInsets 的种类</h2><p>这里所说的 UIEdgeInsets 仅仅是针对 UIButton 的。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">typedef struct UIEdgeInsets &#123;</span><br><span class="line">	CGFloat top, left, bottom, right;</span><br><span class="line">&#125; UIEdgeInsets;</span><br></pre></td></tr></table></figure>
 <p>结构体，参数分别表示距离上、左、下、右四个边界的距离，它的默认值为0.</p>
-<p>UIButton中的UIEdgeInsets属性主要有三个：</p>
-<h3 id="1-contentEdgeInsets"><a href="#1-contentEdgeInsets" class="headerlink" title="1. contentEdgeInsets"></a>1. contentEdgeInsets</h3><p>这个属性是UILabel + UIImageView 整体的偏移。如果要将button中的内容整体偏移15。写法如下</p>
+<p>UIButton 中的 UIEdgeInsets 属性主要有三个：</p>
+<h3 id="1-contentEdgeInsets"><a href="#1-contentEdgeInsets" class="headerlink" title="1. contentEdgeInsets"></a>1. contentEdgeInsets</h3><p>这个属性是 UILabel + UIImageView 整体的偏移。如果要将 button 中的内容整体偏移15。写法如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">button.contentEdgeInsets = UIEdgeInsetsMake(15, 15, -15, -15);</span><br></pre></td></tr></table></figure>
-<h3 id="2-titleEdgeInsets"><a href="#2-titleEdgeInsets" class="headerlink" title="2. titleEdgeInsets"></a>2. titleEdgeInsets</h3><p>这个代表的是title的UIEdgeInsets，其中的top、bottom、right 是相对于外层的contentView的，而left是相对于image 来说的。</p>
-<h3 id="3-imageEdgeInsets"><a href="#3-imageEdgeInsets" class="headerlink" title="3. imageEdgeInsets"></a>3. imageEdgeInsets</h3><p>这个代表的是image的UIEdgeInsets，其中的top、bottom、left是相对于外层的contentView的，而right是相对于title 来说的。</p>
-<p>造成imageEdgeInsets和titleEdgeInsets出现这种情况的原因是，UIButton默认的图文按钮是左图右文的形式。</p>
+<h3 id="2-titleEdgeInsets"><a href="#2-titleEdgeInsets" class="headerlink" title="2. titleEdgeInsets"></a>2. titleEdgeInsets</h3><p>这个代表的是 title 的 UIEdgeInsets，其中的 top、bottom、right 是相对于外层的 contentView 的，而 left 是相对于 image 来说的。</p>
+<h3 id="3-imageEdgeInsets"><a href="#3-imageEdgeInsets" class="headerlink" title="3. imageEdgeInsets"></a>3. imageEdgeInsets</h3><p>这个代表的是 image 的 UIEdgeInsets，其中的top、bottom、left 是相对于外层的 contentView 的，而 right 是相对于 title 来说的。</p>
+<p>造成 imageEdgeInsets 和 titleEdgeInsets 出现这种情况的原因是，UIButton 默认的图文按钮是左图右文的形式。</p>
 <img src="/2018/09/26/essay14/image1.png">
-<p>在上图中top、left、bottom、right在沿着箭头方向上的位移为正值，逆着箭头方向的值为负值。</p>
-<h2 id="UIEdgeInsets的简单应用"><a href="#UIEdgeInsets的简单应用" class="headerlink" title="UIEdgeInsets的简单应用"></a>UIEdgeInsets的简单应用</h2><h3 id="实现左文右图"><a href="#实现左文右图" class="headerlink" title="实现左文右图"></a>实现左文右图</h3><p>调整imageEdgeInsets向右偏移title的宽度，titleEdgeInsets向左偏移image的宽度，形成如下的按钮：</p>
+<p>在上图中 top、left、bottom、right 在沿着箭头方向上的位移为正值，逆着箭头方向的值为负值。</p>
+<h2 id="UIEdgeInsets-的简单应用"><a href="#UIEdgeInsets-的简单应用" class="headerlink" title="UIEdgeInsets 的简单应用"></a>UIEdgeInsets 的简单应用</h2><h3 id="实现左文右图"><a href="#实现左文右图" class="headerlink" title="实现左文右图"></a>实现左文右图</h3><p>调整 imageEdgeInsets 向右偏移 title 的宽度，titleEdgeInsets 向左偏移 image 的宽度，形成如下的按钮：</p>
 <img src="/2018/09/26/essay14/image2.png">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CGRect rectTitle = button.titleLabel.frame;</span><br><span class="line">CGRect rectImage = button.imageView.frame;</span><br><span class="line">button.titleEdgeInsets = UIEdgeInsetsMake(0, - rectImage.size.width, 0, rectImage.size.width);</span><br><span class="line">button.imageEdgeInsets = UIEdgeInsetsMake(0, rectTitle.size.width, 0, - rectTitle.size.width);</span><br></pre></td></tr></table></figure>
-<h3 id="实现上图下文"><a href="#实现上图下文" class="headerlink" title="实现上图下文"></a>实现上图下文</h3>
+<h3 id="实现上图下文"><a href="#实现上图下文" class="headerlink" title="实现上图下文"></a>实现上图下文</h3><p>调整 imageEdgeInsets 向右偏移 title 宽度的一半，向上偏移 title 高度的一半；titleEdgeInsets 向左偏移 image 宽度的一半，向下偏移 image 高度的一半。形成如下的按钮：</p>
+<img src="/2018/09/26/essay14/image3.png">
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CGRect rectTitle = button.titleLabel.frame;</span><br><span class="line">CGRect rectImage = button.imageView.frame;</span><br><span class="line">button.titleEdgeInsets = UIEdgeInsetsMake(rectImage.size.height / 2,  - rectImage.size.width/2, -rectImage.size.height / 2 ,  rectImage.size.width/2);</span><br><span class="line">button.imageEdgeInsets = UIEdgeInsetsMake(- rectTitle.size.height / 2, rectTitle.size.width/2, rectTitle.size.height / 2,  -rectTitle.size.width/2);</span><br></pre></td></tr></table></figure>
+
           
         
       
