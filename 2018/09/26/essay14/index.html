@@ -89,7 +89,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/09/26/essay14/image1.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/26/essay14/image2.png">
 <meta property="og:image" content="http://yoursite.com/2018/09/26/essay14/image3.png">
-<meta property="og:updated_time" content="2018-10-12T01:41:46.000Z">
+<meta property="og:updated_time" content="2018-10-12T02:49:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="了解 UIButton 的 UIEdgeInsets 属性">
 <meta name="twitter:description" content="在应用开发时，经常会用到 UIButton 这个控件。在UI的样式上，它支持仅图片、仅文字、图片+文字（默认的左图右文形式）。但是在一些场景下常常需要对原生的 UIButton 进行一些调整。例如：调整图片和文字的距离、上图下文等形式。这个时候就要借助于 UIButton 的 UIEdgeInsets 属性了。然而，这个属性的过程中，常常会遇到设置不生效的情况。这是因为对这个属性了解的还不够，本文">
@@ -321,6 +321,7 @@
 <h3 id="实现上图下文"><a href="#实现上图下文" class="headerlink" title="实现上图下文"></a>实现上图下文</h3><p>调整 imageEdgeInsets 向右偏移 title 宽度的一半，向上偏移 title 高度的一半；titleEdgeInsets 向左偏移 image 宽度的一半，向下偏移 image 高度的一半。形成如下的按钮：</p>
 <img src="/2018/09/26/essay14/image3.png">
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CGRect rectTitle = button.titleLabel.frame;</span><br><span class="line">CGRect rectImage = button.imageView.frame;</span><br><span class="line">button.titleEdgeInsets = UIEdgeInsetsMake(rectImage.size.height / 2,  - rectImage.size.width/2, -rectImage.size.height / 2 ,  rectImage.size.width/2);</span><br><span class="line">button.imageEdgeInsets = UIEdgeInsetsMake(- rectTitle.size.height / 2, rectTitle.size.width/2, rectTitle.size.height / 2,  -rectTitle.size.width/2);</span><br></pre></td></tr></table></figure>
+<h2 id="UIEdgeInsets-的简单分析"><a href="#UIEdgeInsets-的简单分析" class="headerlink" title="UIEdgeInsets 的简单分析"></a>UIEdgeInsets 的简单分析</h2><p>在上面的应用中可以发现t op = - bottom、left = - right，这时候的位移值直接从 top 和 left 的值就可以看出，但是当 top != - bottom, left != - right 时，实际的偏移量就不是很直观了。而且如果随意取值的话往往会出现一些非正常的效果，所以尽量比较规范的使用 UIEdgeInsets。</p>
 
       
     </div>
@@ -467,7 +468,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UIEdgeInsets-的种类"><span class="nav-number">1.</span> <span class="nav-text">UIEdgeInsets 的种类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-contentEdgeInsets"><span class="nav-number">1.1.</span> <span class="nav-text">1. contentEdgeInsets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-titleEdgeInsets"><span class="nav-number">1.2.</span> <span class="nav-text">2. titleEdgeInsets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-imageEdgeInsets"><span class="nav-number">1.3.</span> <span class="nav-text">3. imageEdgeInsets</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UIEdgeInsets-的简单应用"><span class="nav-number">2.</span> <span class="nav-text">UIEdgeInsets 的简单应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现左文右图"><span class="nav-number">2.1.</span> <span class="nav-text">实现左文右图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现上图下文"><span class="nav-number">2.2.</span> <span class="nav-text">实现上图下文</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#UIEdgeInsets-的种类"><span class="nav-number">1.</span> <span class="nav-text">UIEdgeInsets 的种类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-contentEdgeInsets"><span class="nav-number">1.1.</span> <span class="nav-text">1. contentEdgeInsets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-titleEdgeInsets"><span class="nav-number">1.2.</span> <span class="nav-text">2. titleEdgeInsets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-imageEdgeInsets"><span class="nav-number">1.3.</span> <span class="nav-text">3. imageEdgeInsets</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UIEdgeInsets-的简单应用"><span class="nav-number">2.</span> <span class="nav-text">UIEdgeInsets 的简单应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现左文右图"><span class="nav-number">2.1.</span> <span class="nav-text">实现左文右图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现上图下文"><span class="nav-number">2.2.</span> <span class="nav-text">实现上图下文</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UIEdgeInsets-的简单分析"><span class="nav-number">3.</span> <span class="nav-text">UIEdgeInsets 的简单分析</span></a></li></ol></div>
             
 
           </div>
