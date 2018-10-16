@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="在 iOS 开发过程中，UITableview 是一个经常被用到的组件之一。小白我原来自以为对他老人家已经是非常熟悉了。但是种种打脸情况的出现告诉我，还是太年轻。 使用 UITableView 的 reloadSections，很容易引起 NSInternalInconsistencyException 这样的崩溃，每次都快把我整奔溃了。为什么呢？ 当 UITableView 的数据源发生变化的时">
+<meta name="description" content="在 iOS 开发中，应用的界面可以由一棵树状的 UIView 组成。这颗树的根是 UIWindow，接下来是 UIWindow 的 rootViewController 的 根 UIView, 在这个 UIView 上 可以有各种各样的子 UIView。 UIView 提供了叫做 layoutSubviews 的方法来实现父 UIView 对子 UIView 的布局管理。 在程序开发中并不会直接调">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于 UITableView reloadSections 引起的崩溃问题">
-<meta property="og:url" content="http://yoursite.com/2018/08/06/essay3/index.html">
+<meta property="og:title" content="UIView 的 layoutSubviews">
+<meta property="og:url" content="http://yoursite.com/2018/10/16/essay16/index.html">
 <meta property="og:site_name" content="小程故事">
-<meta property="og:description" content="在 iOS 开发过程中，UITableview 是一个经常被用到的组件之一。小白我原来自以为对他老人家已经是非常熟悉了。但是种种打脸情况的出现告诉我，还是太年轻。 使用 UITableView 的 reloadSections，很容易引起 NSInternalInconsistencyException 这样的崩溃，每次都快把我整奔溃了。为什么呢？ 当 UITableView 的数据源发生变化的时">
+<meta property="og:description" content="在 iOS 开发中，应用的界面可以由一棵树状的 UIView 组成。这颗树的根是 UIWindow，接下来是 UIWindow 的 rootViewController 的 根 UIView, 在这个 UIView 上 可以有各种各样的子 UIView。 UIView 提供了叫做 layoutSubviews 的方法来实现父 UIView 对子 UIView 的布局管理。 在程序开发中并不会直接调">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-06T07:06:10.000Z">
+<meta property="og:updated_time" content="2018-10-16T09:22:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于 UITableView reloadSections 引起的崩溃问题">
-<meta name="twitter:description" content="在 iOS 开发过程中，UITableview 是一个经常被用到的组件之一。小白我原来自以为对他老人家已经是非常熟悉了。但是种种打脸情况的出现告诉我，还是太年轻。 使用 UITableView 的 reloadSections，很容易引起 NSInternalInconsistencyException 这样的崩溃，每次都快把我整奔溃了。为什么呢？ 当 UITableView 的数据源发生变化的时">
+<meta name="twitter:title" content="UIView 的 layoutSubviews">
+<meta name="twitter:description" content="在 iOS 开发中，应用的界面可以由一棵树状的 UIView 组成。这颗树的根是 UIWindow，接下来是 UIWindow 的 rootViewController 的 根 UIView, 在这个 UIView 上 可以有各种各样的子 UIView。 UIView 提供了叫做 layoutSubviews 的方法来实现父 UIView 对子 UIView 的布局管理。 在程序开发中并不会直接调">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/06/essay3/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/16/essay16/"/>
 
 
 
 
 
-  <title>关于 UITableView reloadSections 引起的崩溃问题 | 小程故事</title>
+  <title>UIView 的 layoutSubviews | 小程故事</title>
   
 
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/06/essay3/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/16/essay16/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="汤圆红豆酥">
@@ -249,7 +249,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">关于 UITableView reloadSections 引起的崩溃问题</h1>
+          <h1 class="post-title" itemprop="name headline">UIView 的 layoutSubviews</h1>
         
 
         <div class="post-meta">
@@ -261,8 +261,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-06T14:06:24+08:00">
-                2018-08-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-16T14:06:19+08:00">
+                2018-10-16
               </time>
             
 
@@ -299,11 +299,19 @@
       
 
       
-        <p>在 iOS 开发过程中，UITableview 是一个经常被用到的组件之一。小白我原来自以为对他老人家已经是非常熟悉了。但是种种打脸情况的出现告诉我，还是太年轻。</p>
-<p>使用 UITableView 的 reloadSections，很容易引起 NSInternalInconsistencyException 这样的崩溃，每次都快把我整奔溃了。为什么呢？</p>
-<p>当 UITableView 的数据源发生变化的时候，一般会调用 reloadData 方法或者 reloadSections:withRowAnimation: 来进行 UITableview 的 UI 刷新。然而在有些时候并不需要刷新整个 UITableView，这个时候我们往往采用后者进行局部的刷新。但此时却有这样的一个隐患：</p>
-<p>在调用 reloadSections:withRowAnimation: 方法的时候，UITableView 还会对其他 section 进行校验，此时如果发现 UITableView 记录的某个 section 的 row 的数量和 [dataSource tableView:numberOfRowsInSection] 方法返回的有差异的时候，就会抛出一个 NSInternalInconsistencyException 异常。</p>
-<p>我的理解就是:当某个 section 所对应的数据源促使该 section 的 row 发生变化的时候，确没有对该 section 进行刷新的话，就会抛出异常。</p>
+        <p>在 iOS 开发中，应用的界面可以由一棵树状的 UIView 组成。这颗树的根是 UIWindow，接下来是 UIWindow 的 rootViewController 的 根 UIView, 在这个 UIView 上 可以有各种各样的子 UIView。</p>
+<p>UIView 提供了叫做 layoutSubviews 的方法来实现父 UIView 对子 UIView 的布局管理。</p>
+<p>在程序开发中并不会直接调用layoutSubViews的方法，而是在一些时机自动触发:</p>
+<ol>
+<li>init &amp; initWithFrame 方法都不会触发 layoutSubviews</li>
+<li>addSubview 方法会自动触发 layoutSubViews</li>
+<li>对UIView 的 frame 进行设置（这个frame发生了变化），会触发 layoutSubViews</li>
+<li>滚动 UIScrollView 会触发它的 layoutSubViews</li>
+<li>改变 UIView 的 frame 也会触发它的父 UIView 的 layoutSubViews</li>
+<li>旋转 Screen 可以触发父 UIView 上的 layoutSubViews ??</li>
+<li>调用 setNeedsLayout 非立即触发 layoutSubViews</li>
+<li>调用 layoutIfNeeded 立即触发 layoutSubViews</li>
+</ol>
 
       
     </div>
@@ -328,8 +336,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/01/essay2/" rel="next" title="GitHub + Hexo 搭建博客">
-                <i class="fa fa-chevron-left"></i> GitHub + Hexo 搭建博客
+              <a href="/2018/10/12/essay15/" rel="next" title="sizeToFit 和 sizeThatFits">
+                <i class="fa fa-chevron-left"></i> sizeToFit 和 sizeThatFits
               </a>
             
           </div>
@@ -337,10 +345,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/09/essay4/" rel="prev" title="声明 block 属性的时候为什么用 copy">
-                声明 block 属性的时候为什么用 copy <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
