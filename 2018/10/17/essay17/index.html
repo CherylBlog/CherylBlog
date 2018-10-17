@@ -79,17 +79,20 @@
 
 
 
-<meta name="description" content="在 OC 中有几种空类型的写法，他们之间是有一定的区别的 nil: 对象为空。(id)0, literal null value for Objective-C objects 定义某一个实例对象的值为空: 1234567NSObject * obj = nil;if(nil == obj)&amp;#123;    NSLog(@&amp;quot;对象为空&amp;quot;);&amp;#125;else&amp;#123;">
+<meta name="description" content="CGRectInsetCGRect CGRectInset(CGRect rect, CGFloat dx, CGFloat dy)表示在 rect 的基础上，分别在 x 和 y 方向上进行缩放：  dx &amp;gt; 0, 在 x 方向上缩小 2  dx; dx &amp;lt; 0, 在 x 方向上放大 2  (-dx);  dy &amp;gt; 0, 在 y 方向上缩小 2  dy; dy &amp;lt; 0, 在">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Objective-C nil,Nil,NULL 和 NSNull 的区别">
-<meta property="og:url" content="http://yoursite.com/2018/08/13/essay7/index.html">
+<meta property="og:title" content="iOS 中 CGRectInset &amp; CGRectOffset">
+<meta property="og:url" content="http://yoursite.com/2018/10/17/essay17/index.html">
 <meta property="og:site_name" content="小程故事">
-<meta property="og:description" content="在 OC 中有几种空类型的写法，他们之间是有一定的区别的 nil: 对象为空。(id)0, literal null value for Objective-C objects 定义某一个实例对象的值为空: 1234567NSObject * obj = nil;if(nil == obj)&amp;#123;    NSLog(@&amp;quot;对象为空&amp;quot;);&amp;#125;else&amp;#123;">
+<meta property="og:description" content="CGRectInsetCGRect CGRectInset(CGRect rect, CGFloat dx, CGFloat dy)表示在 rect 的基础上，分别在 x 和 y 方向上进行缩放：  dx &amp;gt; 0, 在 x 方向上缩小 2  dx; dx &amp;lt; 0, 在 x 方向上放大 2  (-dx);  dy &amp;gt; 0, 在 y 方向上缩小 2  dy; dy &amp;lt; 0, 在">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-13T06:43:53.000Z">
+<meta property="og:image" content="http://yoursite.com/2018/10/17/essay17/image1.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/17/essay17/image2.png">
+<meta property="og:updated_time" content="2018-10-17T07:22:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Objective-C nil,Nil,NULL 和 NSNull 的区别">
-<meta name="twitter:description" content="在 OC 中有几种空类型的写法，他们之间是有一定的区别的 nil: 对象为空。(id)0, literal null value for Objective-C objects 定义某一个实例对象的值为空: 1234567NSObject * obj = nil;if(nil == obj)&amp;#123;    NSLog(@&amp;quot;对象为空&amp;quot;);&amp;#125;else&amp;#123;">
+<meta name="twitter:title" content="iOS 中 CGRectInset &amp; CGRectOffset">
+<meta name="twitter:description" content="CGRectInsetCGRect CGRectInset(CGRect rect, CGFloat dx, CGFloat dy)表示在 rect 的基础上，分别在 x 和 y 方向上进行缩放：  dx &amp;gt; 0, 在 x 方向上缩小 2  dx; dx &amp;lt; 0, 在 x 方向上放大 2  (-dx);  dy &amp;gt; 0, 在 y 方向上缩小 2  dy; dy &amp;lt; 0, 在">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/17/essay17/image1.png">
 
 
 
@@ -119,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/08/13/essay7/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/17/essay17/"/>
 
 
 
 
 
-  <title>Objective-C nil,Nil,NULL 和 NSNull 的区别 | 小程故事</title>
+  <title>iOS 中 CGRectInset & CGRectOffset | 小程故事</title>
   
 
 
@@ -232,7 +235,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/13/essay7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/17/essay17/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="汤圆红豆酥">
@@ -249,7 +252,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Objective-C nil,Nil,NULL 和 NSNull 的区别</h1>
+          <h1 class="post-title" itemprop="name headline">iOS 中 CGRectInset & CGRectOffset</h1>
         
 
         <div class="post-meta">
@@ -261,8 +264,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-13T10:16:22+08:00">
-                2018-08-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-17T14:54:31+08:00">
+                2018-10-17
               </time>
             
 
@@ -299,20 +302,24 @@
       
 
       
-        <p>在 OC 中有几种空类型的写法，他们之间是有一定的区别的</p>
-<h2 id="nil-对象为空。"><a href="#nil-对象为空。" class="headerlink" title="nil: 对象为空。"></a>nil: 对象为空。</h2><p>(id)0, literal null value for Objective-C objects</p>
-<p>定义某一个实例对象的值为空:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSObject * obj = nil;</span><br><span class="line">if(nil == obj)&#123;</span><br><span class="line">    NSLog(@&quot;对象为空&quot;);</span><br><span class="line">&#125;</span><br><span class="line">else&#123;</span><br><span class="line">    NSLog(@&quot;对象不为空&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="Nil-类为空"><a href="#Nil-类为空" class="headerlink" title="Nil: 类为空"></a>Nil: 类为空</h2><p>(Class)0, literal null value for Objective-C classes</p>
-<p>定义某一个类是空的:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Class oneClass = Nil;</span><br><span class="line">Class anotherClass = [NSString class];</span><br></pre></td></tr></table></figure>
-<h2 id="NULL-基本数据类型指针为空"><a href="#NULL-基本数据类型指针为空" class="headerlink" title="NULL: 基本数据类型指针为空"></a>NULL: 基本数据类型指针为空</h2><p>(void *)0, literal null value for C pointers</p>
-<p>C 语言的各种数据类型的空指针:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int * pointerToInt = NULL;</span><br><span class="line">char * pointerToChar = NULL;</span><br><span class="line">struct TreeNode * root = NULL;</span><br></pre></td></tr></table></figure>
-<h2 id="NSNull"><a href="#NSNull" class="headerlink" title="NSNull"></a>NSNull</h2><p>[NSNull null], singleton object used to represent null</p>
-<p>集合对象不能用 nil 来作为具体的一个值，所以用一个特定的对象 NSnull 来表示:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSMutableDictionary * dic = [NSMutableDictionary dictionary];</span><br><span class="line">dic[@&quot;oneKey&quot;] = [NSNull null];</span><br><span class="line">NSLog(@&quot;keys : %@&quot;, [dic allKeys]);</span><br></pre></td></tr></table></figure>
-
+        <h3 id="CGRectInset"><a href="#CGRectInset" class="headerlink" title="CGRectInset"></a>CGRectInset</h3><p>CGRect CGRectInset(CGRect rect, CGFloat dx, CGFloat dy)<br>表示在 rect 的基础上，分别在 x 和 y 方向上进行缩放：</p>
+<ol>
+<li><p>dx &gt; 0, 在 x 方向上缩小 2 <em> dx; dx &lt; 0, 在 x 方向上放大 2 </em> (-dx);</p>
+</li>
+<li><p>dy &gt; 0, 在 y 方向上缩小 2 <em> dy; dy &lt; 0, 在 y 方向上放大 2 </em> (-dy);</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UIView * view1 = [[UIView    alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];</span><br><span class="line">view1.backgroundColor = [UIColor redColor];</span><br><span class="line">[self.view addSubview:view1];</span><br><span class="line">    </span><br><span class="line">UIView * view2 = [UIView new];</span><br><span class="line">view2.frame = CGRectInset(view1.frame, 10, 10);</span><br><span class="line">view2.backgroundColor = [UIColor blackColor];</span><br><span class="line">[self.view addSubview:view2];</span><br></pre></td></tr></table></figure>
+<p>如下图：</p>
+<img src="/2018/10/17/essay17/image1.png">
+<h3 id="CGRectOffset"><a href="#CGRectOffset" class="headerlink" title="CGRectOffset"></a>CGRectOffset</h3><p>CGRect CGRectOffset(CGRect rect, CGFloat dx, CGFloat dy) 表示以 rect 的 origin 为基点在 x 和 y 方向进行偏移：</p>
+<ol>
+<li>dx &gt; 0, 在 x 方向上向右偏移 dx; dx &lt; 0, 在 x 方向上向左偏移 -dx;</li>
+<li>dy &gt; 0, 在 y 方向上向下偏移 dy; dy &lt; 0, 在 y 方向上向上偏移 -dy;</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">UIView * view1 = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];</span><br><span class="line">view1.backgroundColor = [UIColor redColor];</span><br><span class="line">[self.view addSubview:view1];</span><br><span class="line">    </span><br><span class="line">UIView * view2 = [UIView new];</span><br><span class="line">view2.frame = CGRectOffset(view1.frame, -20, 20);</span><br><span class="line">view2.backgroundColor = [UIColor blackColor];</span><br><span class="line">[self.view addSubview:view2];</span><br></pre></td></tr></table></figure>
+<p>如下图：</p>
+<img src="/2018/10/17/essay17/image2.png">
       
     </div>
     
@@ -336,8 +343,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/10/essay6/" rel="next" title="block 中的循环引用问题">
-                <i class="fa fa-chevron-left"></i> block 中的循环引用问题
+              <a href="/2018/10/16/essay16/" rel="next" title="UIView 的 layoutSubviews">
+                <i class="fa fa-chevron-left"></i> UIView 的 layoutSubviews
               </a>
             
           </div>
@@ -345,10 +352,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/08/13/essay8/" rel="prev" title="iOS 内存管理方式">
-                iOS 内存管理方式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -462,7 +465,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#nil-对象为空。"><span class="nav-number">1.</span> <span class="nav-text">nil: 对象为空。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Nil-类为空"><span class="nav-number">2.</span> <span class="nav-text">Nil: 类为空</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NULL-基本数据类型指针为空"><span class="nav-number">3.</span> <span class="nav-text">NULL: 基本数据类型指针为空</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSNull"><span class="nav-number">4.</span> <span class="nav-text">NSNull</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CGRectInset"><span class="nav-number">1.</span> <span class="nav-text">CGRectInset</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGRectOffset"><span class="nav-number">2.</span> <span class="nav-text">CGRectOffset</span></a></li></ol></div>
             
 
           </div>
