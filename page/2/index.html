@@ -229,6 +229,156 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/16/essay9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="汤圆红豆酥">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="小程故事">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/08/16/essay9/" itemprop="url">iOS 多线程 GCD (一)</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-16T10:39:59+08:00">
+                2018-08-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h2><p>GCD(Grand Central Dispatch) 是 Apple 开发的一个多核变编程的比较新的解决方法。是一个在线程池模式的基础上执行的并发任务。可用于多核的并行计算；可以自动利用更多的 CPU 内核；可以自动管理线程的生命周期，比如创建线程、调度任务、销毁线程，程序员只要告诉 GCD 要执行什么任务，不需要操心线程的管理。</p>
+<h2 id="任务和队列"><a href="#任务和队列" class="headerlink" title="任务和队列"></a>任务和队列</h2><p>在 GCD 中有两个概念：任务和队列。</p>
+<h3 id="任务"><a href="#任务" class="headerlink" title="任务"></a>任务</h3><p>任务就是要在线程中执行的那段代码，在 GCD 中主要讲这段任务代码放到block中。<br>任务的执行主要有两种方式:同步执行 (sync) 和异步执行 (async)。这两者的主要区别是：是否需要等待队列中的任务执行结束，时候有开启新的线程的能力。</p>
+<h4 id="同步执行-sync"><a href="#同步执行-sync" class="headerlink" title="同步执行(sync):"></a>同步执行(sync):</h4><p>同步添加任务到指定的队列，要等待队列中的其他任务执行完毕，才能够执行。只能在当前的线程中执行任务，不具备开启新的线程的能力。</p>
+<h4 id="异步执行-async"><a href="#异步执行-async" class="headerlink" title="异步执行(async):"></a>异步执行(async):</h4><p>异步添加任务到指定的队列，不用等待，就可以执行任务。可以在新的线程中执行任务，具备开启新的线程的能力。</p>
+<p>需要注意的是：异步执行虽然具备开启新的线程的能力，但是不一定会开启新的线程。这还跟任务添加到的指定的队列的类型有关系。</p>
+<h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>这里的队列是指用来存放任务的队列，新的任务总是被插入到队列的末尾，读取任务的时候总是从队列的头部开始。每次读取一个任务，就会从队列中释放掉一个任务。</p>
+<p>在 GCD 中有两种队列：串行队列和并发队列。它们都遵循先进先出的原则。主要区别是执行顺序不同，开启的线程数不同。</p>
+<h4 id="串行队列"><a href="#串行队列" class="headerlink" title="串行队列"></a>串行队列</h4><p>串行队列 (Serial Dispatch Queue) 每次只执行一个任务，任务一个接着一个的执行。只开启一个线程，一个任务执行完毕后，再开始执行下一个任务。</p>
+<h4 id="并发队列"><a href="#并发队列" class="headerlink" title="并发队列"></a>并发队列</h4><p>并发队列 (Concurrent Dispatch Queue) 可以让多个任务并发(同时)执行。可以开启多个线程，同时执行任务。<br>并发队列的并发功能只在异步函数 (dispatch_async) 下才是有效的。</p>
+<h2 id="GCD-的使用"><a href="#GCD-的使用" class="headerlink" title="GCD 的使用"></a>GCD 的使用</h2><p>GCD 的使用主要分为两个步骤：</p>
+<ol>
+<li>创建队列(串行队列或者是并发队列)；</li>
+<li>将任务追加到队列中，系统根据任务类型执行任务(同步执行或者异步执行)</li>
+</ol>
+<h3 id="队列的创建及获取"><a href="#队列的创建及获取" class="headerlink" title="队列的创建及获取"></a>队列的创建及获取</h3><p>可以使用 dispatch_queue_create 来创建队列，需要传入两个参数，第一个参数是表示队列的唯一标识，可以为空；第二个参数用来标识是串行队列还是并发队列:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//串行队列</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;queueSerial&quot;, DISPATCH_QUEUE_SERIAL);</span><br><span class="line"></span><br><span class="line">//并行队列</span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;queueConcurrent&quot;, DISPATCH_QUEUE_CONCURRENT);</span><br></pre></td></tr></table></figure>
+<h4 id="主队列-Main-Dispatch-Queue"><a href="#主队列-Main-Dispatch-Queue" class="headerlink" title="主队列(Main Dispatch Queue)"></a>主队列(Main Dispatch Queue)</h4><p>GCD提供了一种特殊的串行队列:主队列 (Main Dispatch Queue)。所有在主队列中的任务都会在主线程中执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//获取主队列</span><br><span class="line">dispatch_queue_t queue = dispatch_get_main_queue();</span><br></pre></td></tr></table></figure>
+<h4 id="全局并发队列-Global-Dispatch-Queue"><a href="#全局并发队列-Global-Dispatch-Queue" class="headerlink" title="全局并发队列(Global Dispatch Queue)"></a>全局并发队列(Global Dispatch Queue)</h4><p>GCD默认提供了全局并发队列 (Glonal Dispatch Queue)。dispatch_get_global_queue 可以获取全局并发队列，需要传入两个参数。第一个参数标识队列的优先级，一般可用 DISPATCH_QUEUE_PRIORITY_DEFAULT。第二个参数暂时还没有实际的用途，可用0.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//获取全局并发队列</span><br><span class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0);</span><br></pre></td></tr></table></figure>
+<h3 id="任务的创建"><a href="#任务的创建" class="headerlink" title="任务的创建"></a>任务的创建</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//创建同步执行任务</span><br><span class="line">dispatch_sync(queue, ^&#123;</span><br><span class="line">    //任务代码</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//创建异步执行任务</span><br><span class="line">dispatch_async(queue, ^&#123;</span><br><span class="line">    //任务代码</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>任务有同步执行和异步执行，队列也有串行队列和并发队列，在串行队列中又有比较特殊的主队列，这样就会出现6种不同的组合方式:</p>
+<h4 id="同步执行-并发队列"><a href="#同步执行-并发队列" class="headerlink" title="同步执行 + 并发队列"></a>同步执行 + 并发队列</h4><p>没有开启新的线程，串行执行任务。<br>虽然并发队列可以开启多个线程，同时执行多个任务。但是同步执行的任务本身不能创建新的线程，只有当前的一个线程，所以也就不存在并发了。而且当前的线程只有等待当前的队列中正在执行的任务执行完毕之后才能继续顺序的执行接下来的任务。</p>
+<h4 id="同步执行-串行队列"><a href="#同步执行-串行队列" class="headerlink" title="同步执行 + 串行队列"></a>同步执行 + 串行队列</h4><p>没有开启新的线程，串行执行任务。</p>
+<h4 id="同步执行-主队列"><a href="#同步执行-主队列" class="headerlink" title="同步执行 + 主队列"></a>同步执行 + 主队列</h4><p>没有开启新的线程，串行执行任务</p>
+<h4 id="异步执行-并发队列"><a href="#异步执行-并发队列" class="headerlink" title="异步执行 + 并发队列"></a>异步执行 + 并发队列</h4><p>有开启新的线程，并发执行任务。</p>
+<h4 id="异步执行-串行队列"><a href="#异步执行-串行队列" class="headerlink" title="异步执行 + 串行队列"></a>异步执行 + 串行队列</h4><p>有开启新的线程(1条)，串行执行任务</p>
+<h4 id="异步执行-主队列"><a href="#异步执行-主队列" class="headerlink" title="异步执行 + 主队列"></a>异步执行 + 主队列</h4><p>没有开启新的线程，串行执行任务</p>
+<h2 id="GCD-线程间的通信"><a href="#GCD-线程间的通信" class="headerlink" title="GCD 线程间的通信"></a>GCD 线程间的通信</h2><p>在 iOS 开发中，会将UI刷新(点击、滚动、拖拽等)放在主线程，其他比较耗时的操作(图片下载、文件上传等)放在其他线程。在其他线程中完成了耗时操作之后需要再次返回主线程，此时就需要线程见得通信了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0) , ^&#123;</span><br><span class="line">     在这里完成一些耗时操作</span><br><span class="line">     </span><br><span class="line">     //回到主线程</span><br><span class="line">     dispatch_async(dispatch_get_main_queue() , ^&#123;</span><br><span class="line">          刷新UI的一些操作</span><br><span class="line">     &#125;);</span><br><span class="line">     </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/13/essay8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1327,7 +1477,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
