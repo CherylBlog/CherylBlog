@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="小程故事">
 <meta property="og:description" content="初始化常用123- (instancetype)initWithString:(NSString *)str;- (instancetype)initWithString:(NSString *)str attributes:(nullable NSDictionary&amp;lt;NSAttributedStringKey, id&amp;gt; *)attrs;- (instancetype)initWit">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-23T03:47:57.000Z">
+<meta property="og:updated_time" content="2019-01-23T07:42:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NSMutableAttributedString">
 <meta name="twitter:description" content="初始化常用123- (instancetype)initWithString:(NSString *)str;- (instancetype)initWithString:(NSString *)str attributes:(nullable NSDictionary&amp;lt;NSAttributedStringKey, id&amp;gt; *)attrs;- (instancetype)initWit">
@@ -384,19 +384,19 @@
 <td style="text-align:center">NSShadowAttributeName</td>
 <td style="text-align:center">阴影</td>
 <td style="text-align:center">NSShadow</td>
-<td style="text-align:center">NSShadow, default nil: no shadow</td>
+<td style="text-align:center">默认是nil，没有阴影效果</td>
 </tr>
 <tr>
 <td style="text-align:center">NSTextEffectAttributeName</td>
 <td style="text-align:center">文本特殊效果</td>
 <td style="text-align:center">NSString</td>
-<td style="text-align:center">NSString, default nil: no text effect</td>
+<td style="text-align:center">默认是nil，没有特殊的文字效果</td>
 </tr>
 <tr>
 <td style="text-align:center">NSAttachmentAttributeName</td>
 <td style="text-align:center">文本附件，插入图片</td>
 <td style="text-align:center">NSTextAttachment</td>
-<td style="text-align:center">NSTextAttachment, default nil</td>
+<td style="text-align:center">默认 nil</td>
 </tr>
 <tr>
 <td style="text-align:center">NSLinkAttributeName</td>
@@ -408,31 +408,31 @@
 <td style="text-align:center">NSBaselineOffsetAttributeName</td>
 <td style="text-align:center">基准线偏移</td>
 <td style="text-align:center">NSNumber</td>
-<td style="text-align:center">NSNumber containing floating point value, in points; offset from baseline, default 0</td>
+<td style="text-align:center">默认0，垂直方向上，整数往上，负数往下</td>
 </tr>
 <tr>
 <td style="text-align:center">NSUnderlineColorAttributeName</td>
 <td style="text-align:center">下划线颜色</td>
 <td style="text-align:center">UIColor</td>
-<td style="text-align:center">UIColor, default nil: same as foreground color</td>
+<td style="text-align:center">默认 nil: 同 foreground color</td>
 </tr>
 <tr>
 <td style="text-align:center">NSStrikethroughColorAttributeName</td>
 <td style="text-align:center">删除线颜色</td>
 <td style="text-align:center">UIColor</td>
-<td style="text-align:center">UIColor, default nil: same as foreground color</td>
+<td style="text-align:center">默认 nil: 同 foreground color</td>
 </tr>
 <tr>
 <td style="text-align:center">NSObliquenessAttributeName</td>
 <td style="text-align:center">倾斜</td>
 <td style="text-align:center">NSNumber</td>
-<td style="text-align:center">NSNumber containing floating point value; skew to be applied to glyphs, default 0: no skew</td>
+<td style="text-align:center">默认0，正向右倾斜，负向左倾斜</td>
 </tr>
 <tr>
 <td style="text-align:center">NSExpansionAttributeName</td>
 <td style="text-align:center">扁平化</td>
 <td style="text-align:center">NSNumber</td>
-<td style="text-align:center">NSNumber containing floating point value; log of expansion factor to be applied to glyphs, default 0: no expansion</td>
+<td style="text-align:center">默认0，正拉伸，负压缩</td>
 </tr>
 <tr>
 <td style="text-align:center">NSWritingDirectionAttributeName</td>
