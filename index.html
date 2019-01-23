@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/07/essay22/" itemprop="url">essay22</a></h1>
+                <a class="post-title-link" href="/2018/12/07/essay22/" itemprop="url">NSMutableAttributedString</a></h1>
         
 
         <div class="post-meta">
@@ -300,7 +300,160 @@
       
         
           
-            
+            <h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><h4 id="常用"><a href="#常用" class="headerlink" title="常用"></a>常用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype)initWithString:(NSString *)str;</span><br><span class="line">- (instancetype)initWithString:(NSString *)str attributes:(nullable NSDictionary&lt;NSAttributedStringKey, id&gt; *)attrs;</span><br><span class="line">- (instancetype)initWithAttributedString:(NSAttributedString *)attrStr;</span><br></pre></td></tr></table></figure>
+<h4 id="非常用"><a href="#非常用" class="headerlink" title="非常用"></a>非常用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (nullable instancetype)initWithURL:(NSURL *)url options:(NSDictionary&lt;NSAttributedStringDocumentReadingOptionKey, id&gt; *)options documentAttributes:(NSDictionary&lt;NSAttributedStringDocumentAttributeKey, id&gt; * __nullable * __nullable)dict error:(NSError **)error NS_AVAILABLE(10_4, 9_0);</span><br><span class="line">- (nullable instancetype)initWithData:(NSData *)data options:(NSDictionary&lt;NSAttributedStringDocumentReadingOptionKey, id&gt; *)options documentAttributes:(NSDictionary&lt;NSAttributedStringDocumentAttributeKey, id&gt; * __nullable * __nullable)dict error:(NSError **)error NS_AVAILABLE(10_0, 7_0);</span><br><span class="line">- (nullable instancetype)initWithFileURL:(NSURL *)url options:(NSDictionary *)options documentAttributes:(NSDictionary* __nullable * __nullable)dict error:(NSError **)error NS_DEPRECATED_IOS(7_0, 9_0, &quot;Use -initWithURL:options:documentAttributes:error: instead&quot;) __TVOS_PROHIBITED;</span><br></pre></td></tr></table></figure>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSData * data = [@&quot;&lt;html&gt;text&lt;\html&gt;&quot; dataUsingEncoding:NSUnicodeStringEncoding];</span><br><span class="line">NSMutableAttributedString * text = [[NSMutableAttributedString alloc] initWithData:data options:@&#123;NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType&#125; documentAttributes:nil error:nil];</span><br></pre></td></tr></table></figure>
+<p>其中 NSDocumentTypeDocumentAttribute 这个属性有如下的几种取值：</p>
+<ol>
+<li>NSPlainTextDocumentType (普通的文本)</li>
+<li>NSRTFTextDocumentType (富文本)</li>
+<li>NSRTFDTextDocumentType (带有附件的富文本)</li>
+<li>NSHTMLTextDocumentType (HTML格式的文本)</li>
+</ol>
+<h3 id="常用属性"><a href="#常用属性" class="headerlink" title="常用属性"></a>常用属性</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">属性</th>
+<th style="text-align:center">名</th>
+<th style="text-align:center">值类型</th>
+<th style="text-align:center">默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">NSFontAttributeName</td>
+<td style="text-align:center">字体</td>
+<td style="text-align:center">UIFont</td>
+<td style="text-align:center">Helvetica(Neue) 12</td>
+</tr>
+<tr>
+<td style="text-align:center">NSParagraphStyleAttributeName</td>
+<td style="text-align:center">段落样式</td>
+<td style="text-align:center">NSParagraphStyle</td>
+<td style="text-align:center">defaultParagraphStyle</td>
+</tr>
+<tr>
+<td style="text-align:center">NSForegroundColorAttributeName</td>
+<td style="text-align:center">前景色</td>
+<td style="text-align:center">UIColor</td>
+<td style="text-align:center">blackColor</td>
+</tr>
+<tr>
+<td style="text-align:center">NSBackgroundColorAttributeName</td>
+<td style="text-align:center">(文本)背景色</td>
+<td style="text-align:center">UIColor</td>
+<td style="text-align:center">nil: no background</td>
+</tr>
+<tr>
+<td style="text-align:center">NSLigatureAttributeName</td>
+<td style="text-align:center">连笔</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">这个属性的取值为整数。默认值为1,代表使用默认的连体字符; 取值0,表示没有连体字符。</td>
+</tr>
+<tr>
+<td style="text-align:center">NSKernAttributeName</td>
+<td style="text-align:center">间距</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">字符间距,取正值时间距增加,取负值时间距减小，0时间距无效</td>
+</tr>
+<tr>
+<td style="text-align:center">NSStrikethroughStyleAttributeName</td>
+<td style="text-align:center">删除线</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">取整数值默认为0，无删除线</td>
+</tr>
+<tr>
+<td style="text-align:center">NSUnderlineStyleAttributeName</td>
+<td style="text-align:center">下划线</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">取整数值默认为0，无下划线</td>
+</tr>
+<tr>
+<td style="text-align:center">NSStrokeColorAttributeName</td>
+<td style="text-align:center">填充颜色</td>
+<td style="text-align:center">UIColor</td>
+<td style="text-align:center">默认为 nil: 此时颜色同 foreground color</td>
+</tr>
+<tr>
+<td style="text-align:center">NSStrokeWidthAttributeName</td>
+<td style="text-align:center">填充(描边，加粗)</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">正值为中空的效果，负值为填充的效果，默认值为0</td>
+</tr>
+<tr>
+<td style="text-align:center">NSShadowAttributeName</td>
+<td style="text-align:center">阴影</td>
+<td style="text-align:center">NSShadow</td>
+<td style="text-align:center">NSShadow, default nil: no shadow</td>
+</tr>
+<tr>
+<td style="text-align:center">NSTextEffectAttributeName</td>
+<td style="text-align:center">文本特殊效果</td>
+<td style="text-align:center">NSString</td>
+<td style="text-align:center">NSString, default nil: no text effect</td>
+</tr>
+<tr>
+<td style="text-align:center">NSAttachmentAttributeName</td>
+<td style="text-align:center">文本附件，插入图片</td>
+<td style="text-align:center">NSTextAttachment</td>
+<td style="text-align:center">NSTextAttachment, default nil</td>
+</tr>
+<tr>
+<td style="text-align:center">NSLinkAttributeName</td>
+<td style="text-align:center">链接</td>
+<td style="text-align:center">NSURL or NSString</td>
+<td style="text-align:center">NSURL (preferred) or NSString</td>
+</tr>
+<tr>
+<td style="text-align:center">NSBaselineOffsetAttributeName</td>
+<td style="text-align:center">基准线偏移</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">NSNumber containing floating point value, in points; offset from baseline, default 0</td>
+</tr>
+<tr>
+<td style="text-align:center">NSUnderlineColorAttributeName</td>
+<td style="text-align:center">下划线颜色</td>
+<td style="text-align:center">UIColor</td>
+<td style="text-align:center">UIColor, default nil: same as foreground color</td>
+</tr>
+<tr>
+<td style="text-align:center">NSStrikethroughColorAttributeName</td>
+<td style="text-align:center">删除线颜色</td>
+<td style="text-align:center">UIColor</td>
+<td style="text-align:center">UIColor, default nil: same as foreground color</td>
+</tr>
+<tr>
+<td style="text-align:center">NSObliquenessAttributeName</td>
+<td style="text-align:center">倾斜</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">NSNumber containing floating point value; skew to be applied to glyphs, default 0: no skew</td>
+</tr>
+<tr>
+<td style="text-align:center">NSExpansionAttributeName</td>
+<td style="text-align:center">扁平化</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">NSNumber containing floating point value; log of expansion factor to be applied to glyphs, default 0: no expansion</td>
+</tr>
+<tr>
+<td style="text-align:center">NSWritingDirectionAttributeName</td>
+<td style="text-align:center">文字方向</td>
+<td style="text-align:center">NSArray of NSNumbers</td>
+<td style="text-align:center">NSArray of NSNumbers representing the nested levels of writing direction overrides as defined by Unicode LRE, RLE, LRO, and RLO characters.  The control characters can be obtained by masking NSWritingDirection and NSWritingDirectionFormatType values.  LRE: NSWritingDirectionLeftToRight</td>
+<td>NSWritingDirectionEmbedding, RLE: NSWritingDirectionRightToLeft</td>
+<td>NSWritingDirectionEmbedding, LRO: NSWritingDirectionLeftToRight</td>
+<td>NSWritingDirectionOverride, RLO: NSWritingDirectionRightToLeft</td>
+<td>NSWritingDirectionOverride,</td>
+</tr>
+<tr>
+<td style="text-align:center">NSVerticalGlyphFormAttributeName</td>
+<td style="text-align:center">水平或竖直文本</td>
+<td style="text-align:center">NSNumber</td>
+<td style="text-align:center">An NSNumber containing an integer value.  0 means horizontal text.  1 indicates vertical text.  If not specified, it could follow higher-level vertical orientation settings.  Currently on iOS, it’s always horizontal.  The behavior for any other value is undefined.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3>
           
         
       
@@ -1695,7 +1848,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
